@@ -37,6 +37,7 @@ const ImageGenerator = () => {
         // Assuming the API returns a direct link to the image
         // Update the following line according to the actual response structure from the API
         setImage_url(data.image_url); // Update this based on actual response property
+        //setImage_url(data.data.images[0]);
     }
 
 
