@@ -1,13 +1,19 @@
 import React from 'react'
 import './ImageGenerator.css'
 import default_image from './default_image.svg'
+import Api from './api.jsx'
 
 const ImageGenerator = () => {
-
     const [image_url, setImage_url] = useState("/")
 
     const imageGenerator = async () =>{
+        // Fetch the prompt from your backend
+        const promptResponse = await fetch('http://localhost:5000/generate-prompt'); // Adjust the URL as needed
+        const promptData = await promptResponse.json();
+        const prompt = promptData.prompt;
 
+
+        // call OpenAI's API with the fetched prompt
         const response = await fetch(
             "https://api.openai.com/v1/images/generations",
             {
@@ -19,16 +25,18 @@ const ImageGenerator = () => {
                     "User-Agent":"Chrome",
                 },
                 body:JSON.stringify({
-                    prompt:`${inputRef.current.value}`,
+                    prompt: prompt, //prompt should be coming from the backend depending on the person's emotion 
                     n:1,
                     size:"512x512",
                 }), 
             }
         );
-        let data = await response.json();
+        const data = await response.json();
         console.log(data);
- 
 
+        // Assuming the API returns a direct link to the image
+        // Update the following line according to the actual response structure from the API
+        setImage_url(data.image_url); // Update this based on actual response property
     }
 
 
