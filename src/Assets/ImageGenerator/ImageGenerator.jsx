@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ImageGenerator.css'
 import default_image from './default_image.svg'
-import Api from './api.jsx'
 
 const ImageGenerator = () => {
     const [image_url, setImage_url] = useState("/")
@@ -14,6 +13,7 @@ const ImageGenerator = () => {
 
 
         // call OpenAI's API with the fetched prompt
+        // https://www.youtube.com/watch?v=PZG2MvOjud0&t=2s for more info
         const response = await fetch(
             "https://api.openai.com/v1/images/generations",
             {
@@ -21,7 +21,7 @@ const ImageGenerator = () => {
                 headers:{
                     "Content-Type":"application/json",
                     Authorization:
-                    "Bearer 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",
+                    `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
                     "User-Agent":"Chrome",
                 },
                 body:JSON.stringify({
